@@ -10,7 +10,9 @@ import javax.sql.*;
 import java.sql.*;
 
 @WebServlet("/Test_DataSource")
-public class TestDataSource測試連線池 extends HttpServlet {
+public class TestDataSource extends HttpServlet {
+
+	private static final long serialVersionUID = 1L;
 
 	public void doGet(HttpServletRequest req, HttpServletResponse res)
 			throws ServletException, IOException {

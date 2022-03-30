@@ -2,22 +2,16 @@ package ezs.sec_category.model;
 
 import java.io.Serializable;
 
+import lombok.Data;
+
+@Data
 public class SecCategoryVO implements Serializable{
 
+	private static final long serialVersionUID = 1L;
+	
 	private Integer shCateID;
 	private String shCateName;
 	
-	public Integer getShCateID() {
-		return shCateID;
-	}
-	public void setShCateID(Integer shCateID) {
-		this.shCateID = shCateID;
-	}
-	public String getShCateName() {
-		return shCateName;
-	}
-	public void setShCateName(String shCateName) {
-		this.shCateName = shCateName;
-	}
+	
 	
 }
