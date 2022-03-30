@@ -9,7 +9,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
-public class WriteBlobByJDBC將圖片寫進資料庫 {
+public class WriteBlobToDBByJDBC {
 
 	public static final String URLheader = "src/main/webapp/NoData/";
 
