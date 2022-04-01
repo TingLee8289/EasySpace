@@ -1,4 +1,4 @@
-package ezs.sec_items.model;
+package ezs.sec_items.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -23,7 +23,6 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 	private static final String GET_ONE_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid =? AND sh_id = ?";
 	private static final String GET_ONE_STMT2 = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_id = ?";
 	private static final String GET_ALL_STMT2 = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid = ? ORDER BY sh_id DESC";
-	
 	private static final String GET_ALL_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` ORDER BY sh_id DESC";
 	private static final String GET_BY_CATE_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid =? AND sh_cate_id=?";
 	private static final String GET_BY_CATE_STMT2 = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_cate_id=?";
@@ -169,7 +168,7 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT);
-			
+
 			rs = pstmt.executeQuery();
 
 			while (rs.next()) {
@@ -197,17 +196,18 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 		}
 		return list;
 	}
+
 	@Override
 	public List<SecItemsVO> getAll2(Integer shSellerID) {
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_ALL_STMT2);
 			pstmt.setInt(1, shSellerID);
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				secItemsVO = new SecItemsVO();
 				secItemsVO.setShID(rs.getInt("sh_id"));
@@ -235,7 +235,7 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 	}
 
 	@Override
-	public List<SecItemsVO> findByShCategory(Integer shSellerID,Integer shCateID) {
+	public List<SecItemsVO> findByShCategory(Integer shSellerID, Integer shCateID) {
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 
@@ -271,18 +271,18 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 		}
 		return list;
 	}
-	
+
 	@Override
 	public List<SecItemsVO> findByShCategory2(Integer shCateID) {
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
-		
+
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(GET_BY_CATE_STMT2);
 			pstmt.setInt(1, shCateID);
 			rs = pstmt.executeQuery();
-			
+
 			while (rs.next()) {
 				secItemsVO = new SecItemsVO();
 				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
@@ -310,7 +310,7 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 	}
 
 	@Override
-	public List<SecItemsVO> findByStatus(Integer shSellerID,Integer shStatus) {
+	public List<SecItemsVO> findByStatus(Integer shSellerID, Integer shStatus) {
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 

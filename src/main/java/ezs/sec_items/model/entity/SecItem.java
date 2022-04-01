@@ -1,4 +1,4 @@
-package ezs.sec_items.model;
+package ezs.sec_items.model.entity;
 
 import java.io.Serializable;
 import java.math.BigDecimal;

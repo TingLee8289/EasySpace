@@ -1,4 +1,4 @@
-package ezs.sec_items.model;
+package ezs.sec_items.model.dao;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,11 +21,8 @@ public class SecItemsJNDIDAO implements SecItemsDAO_interface {
 			+ "sh_size, sh_description, sh_condition, sh_time, sh_guarantee, sh_status, sh_county, sh_dist) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 	private static final String DELETE_STMT = "DELETE FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_id = ?";
 	private static final String UPDATE_STMT = "UPDATE `CFA104G5`.`SEC_ITEMS` SET sh_cate_id=?, sh_name=?, sh_price=?, sh_qty=?, sh_size=?, sh_description=?, sh_condition=?, sh_time=?, sh_guarantee=?, sh_county=?, sh_dist=? WHERE sh_id = ?";
-
 	private static final String GET_ONE_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid =?";
-
 	private static final String GET_ONE_STMT2 = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_id = ?";
-
 	private static final String GET_ALL_STMT2 = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid = ? ORDER BY sh_id DESC";
 	private static final String GET_ALL_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` ORDER BY sh_id DESC";
 	private static final String GET_BY_CATE_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid =? AND sh_cate_id=?";

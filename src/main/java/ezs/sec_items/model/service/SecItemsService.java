@@ -1,8 +1,11 @@
-package ezs.sec_items.model;
+package ezs.sec_items.model.service;
 
 import java.math.BigDecimal;
 import java.util.List;
 
+import ezs.sec_items.model.SecItemsVO;
+import ezs.sec_items.model.dao.SecItemsDAO;
+import ezs.sec_items.model.dao.SecItemsDAO_interface;
 import ezs.sec_pics.model.SecPicsDAO_interface;
 import ezs.sec_pics.model.SecPicsJDBCDAO;
 import ezs.sec_pics.model.SecPicsVO;
@@ -12,7 +15,7 @@ public class SecItemsService {
 	private SecPicsDAO_interface daosecpic;
 	
 	public SecItemsService() {
-		dao = new SecItemsJNDIDAO();
+		dao = new SecItemsDAO();
 		daosecpic = new SecPicsJDBCDAO();
 		
 	}
