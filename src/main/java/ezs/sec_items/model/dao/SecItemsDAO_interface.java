@@ -2,6 +2,8 @@ package ezs.sec_items.model.dao;
 
 import java.util.List;
 
+import ezs.sec_items.model.entity.SecItemsVO;
+
 public interface SecItemsDAO_interface {
 	public Integer insert(SecItemsVO secItemsVO);
 

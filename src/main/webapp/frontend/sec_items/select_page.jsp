@@ -1,6 +1,7 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="ezs.sec_items.model.*"%>
+<%@ page import="ezs.sec_items.model.entity.*"%>
+<%@ page import="ezs.sec_items.model.service.*"%>
 <%@ page import="ezs.sec_category.model.*"%>
 <%
 // SecItemsVO secItemsVO = (SecItemsVO) request.getAttribute("secItemsVO");
@@ -247,7 +248,7 @@
 <!-- 		</li> -->
 
 		<jsp:useBean id="secItemsSvc" scope="page"
-			class="ezs.sec_items.model.SecItemsService" />
+			class="ezs.sec_items.model.service.SecItemsService" />
 
 		<li>
 			<FORM METHOD="post" ACTION="<%=request.getContextPath()%>/sec_items/GetSecItemsServlet.do">

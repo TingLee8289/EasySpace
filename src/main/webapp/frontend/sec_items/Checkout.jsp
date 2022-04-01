@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ page import="java.util.* , java.math.*"%>
-<%@ page import="ezs.sec_items.model.* , ezs.sec_ord_details.model.*"%>
+<%@ page import="ezs.sec_items.model.entity.* , ezs.sec_ord_details.model.*"%>
 <html>
 <head>
 <title>EASY SPACE</title>

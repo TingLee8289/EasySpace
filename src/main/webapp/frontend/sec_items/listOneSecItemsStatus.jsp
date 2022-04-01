@@ -1,7 +1,8 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ page import="ezs.sec_items.model.*"%>
+<%@ page import="ezs.sec_items.model.entity.*"%>
+<%@ page import="ezs.sec_items.model.service.*"%>
 <%@ page import="ezs.sec_pics.model.*"%>
 <%@ page import="java.util.*"%>
 <!DOCTYPE html>

@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ page import="ezs.sec_items.model.*"%>
+<%@ page import="ezs.sec_items.model.entity.*"%>
 <%@ page import="java.util.*"%>
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 

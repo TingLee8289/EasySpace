@@ -1,7 +1,9 @@
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="ezs.sec_items.model.* , ezs.sec_pics.model.*"%>
-<%@ page import="java.util.*"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page import="ezs.sec_pics.model.*"%>
+<%@ page import="ezs.sec_items.model.entity.*"%>
+<%@ page import="ezs.sec_items.model.service.*"%>
+<%@ page import="java.util.*"%>
 <%
 	SecItemsVO secItemsVO = (SecItemsVO) request.getAttribute("secItemsVO"); //GetSecItemsServlet.java(Controller), 存入req的secItemsVO物件
 	Integer shID = secItemsVO.getShID();

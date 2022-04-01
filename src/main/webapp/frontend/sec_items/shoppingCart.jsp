@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ page import="java.util.* , ezs.sec_items.model.* , java.math.*" %>
+<%@ page import="java.util.* , java.math.*" %>
+<%@ page import="ezs.sec_items.model.entity.*"%>
+<%@ page import="ezs.sec_items.model.service.*"%>
 <!DOCTYPE html>
 <html>
 <head>

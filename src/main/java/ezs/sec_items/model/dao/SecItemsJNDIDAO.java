@@ -13,6 +13,7 @@ import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
+import ezs.sec_items.model.entity.SecItemsVO;
 import util.Util;
 
 public class SecItemsJNDIDAO implements SecItemsDAO_interface {

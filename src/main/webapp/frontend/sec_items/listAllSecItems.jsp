@@ -2,7 +2,8 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <%@ page import="java.util.*"%>
-<%@ page import="ezs.sec_items.model.*"%>
+<%@ page import="ezs.sec_items.model.entity.*"%>
+<%@ page import="ezs.sec_items.model.service.*"%>
 <%-- 此頁練習採用 EL 的寫法取值 --%>
 <!DOCTYPE html>
 <%
