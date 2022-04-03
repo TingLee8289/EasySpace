@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ezs.sec_items.model.SecItem;
+import ezs.sec_items.model.entity.SecItem;
 
 @WebServlet("/sec_items/ShoppingServlet.do")
 public class ShoppingServlet extends HttpServlet {

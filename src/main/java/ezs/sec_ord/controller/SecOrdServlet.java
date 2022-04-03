@@ -17,7 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ezs.sec_items.model.SecItem;
+import ezs.sec_items.model.entity.SecItem;
 import ezs.sec_ord.model.SecOrdJDBCDAO;
 import ezs.sec_ord.model.SecOrdService;
 import ezs.sec_ord.model.SecOrdVO;

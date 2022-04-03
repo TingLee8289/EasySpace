@@ -2,9 +2,10 @@ package ezs.sec_items.model.dao;
 
 import java.util.List;
 
+import ezs.core.model.dao.CoreDAO_interface;
 import ezs.sec_items.model.entity.SecItemsVO;
 
-public interface SecItemsDAO_interface {
+public interface SecItemsDAO_interface extends CoreDAO_interface{
 	public Integer insert(SecItemsVO secItemsVO);
 
 	public void update(SecItemsVO secItemsVO);

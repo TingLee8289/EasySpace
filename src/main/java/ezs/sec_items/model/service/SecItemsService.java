@@ -22,12 +22,21 @@ public class SecItemsService implements SecItemsService_interface {
 
 	@Override
 	public SecItemsVO addSecItems(SecItemsVO secItemsVO, SecPicsVO secPicsVO) {
-		Integer id = dao.insert(secItemsVO);
+
+		try {
+			beginTransaction();
+			Integer id = dao.insert(secItemsVO);
 //		DAO新增出來才會產生的ShID 讓它對應Pics
-		secPicsVO.setShID(id);
-		// picDao 傳到關聯表格
-		daosecpic.insert(secPicsVO);
-		return secItemsVO;
+			secPicsVO.setShID(id);
+			// picDao 傳到關聯表格
+			daosecpic.insert(secPicsVO);
+			commit();
+			return secItemsVO;
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback();
+			return null;
+		}
 
 	}
 
@@ -35,28 +44,28 @@ public class SecItemsService implements SecItemsService_interface {
 	public SecItemsVO addSecItems(Integer shCateID, Integer shSellerID, String shName, BigDecimal shPrice,
 			Integer shQTY, String shSize, String shDescription, String shCondition, String shTime, String shGuarantee,
 			Integer shStatus, String shCounty, String shDist) {
-
-		SecItemsVO secItemsVO = new SecItemsVO();
-
-		secItemsVO.setShCateID(shCateID);
-		secItemsVO.setShSellerID(shSellerID);
-		secItemsVO.setShName(shName);
-//		待確認BigDecima使用方式(對應TEST MAIN方法中)
-//		secTranRecordVO1.setShTranAP(BigDecimal.valueOf(1000));
-//	    secItemsVO.setShPrice(new BigDecimal(10));
-		secItemsVO.setShPrice(shPrice);
-		secItemsVO.setShQTY(shQTY);
-		secItemsVO.setShSize(shSize);
-		secItemsVO.setShDescription(shDescription);
-		secItemsVO.setShCondition(shCondition);
-		secItemsVO.setShTime(shTime);
-		secItemsVO.setShGuarantee(shGuarantee);
-		secItemsVO.setShStatus(shStatus);
-		secItemsVO.setShCounty(shCounty);
-		secItemsVO.setShDist(shDist);
-		dao.insert(secItemsVO);
-
-		return secItemsVO;
+//
+//		SecItemsVO secItemsVO = new SecItemsVO();
+//
+//		secItemsVO.setShCateID(shCateID);
+//		secItemsVO.setShSellerID(shSellerID);
+//		secItemsVO.setShName(shName);
+////		待確認BigDecima使用方式(對應TEST MAIN方法中)
+////		secTranRecordVO1.setShTranAP(BigDecimal.valueOf(1000));
+////	    secItemsVO.setShPrice(new BigDecimal(10));
+//		secItemsVO.setShPrice(shPrice);
+//		secItemsVO.setShQTY(shQTY);
+//		secItemsVO.setShSize(shSize);
+//		secItemsVO.setShDescription(shDescription);
+//		secItemsVO.setShCondition(shCondition);
+//		secItemsVO.setShTime(shTime);
+//		secItemsVO.setShGuarantee(shGuarantee);
+//		secItemsVO.setShStatus(shStatus);
+//		secItemsVO.setShCounty(shCounty);
+//		secItemsVO.setShDist(shDist);
+//		dao.insert(secItemsVO);
+//
+		return null;
 	}
 
 	@Override

@@ -3,10 +3,11 @@ package ezs.sec_items.model.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import ezs.core.model.service.CoreService_interface;
 import ezs.sec_items.model.entity.SecItemsVO;
 import ezs.sec_pics.model.SecPicsVO;
 
-public interface SecItemsService_interface {
+public interface SecItemsService_interface extends CoreService_interface{
 
 	public SecItemsVO addSecItems(SecItemsVO secItemsVO, SecPicsVO secPicsVO);
 

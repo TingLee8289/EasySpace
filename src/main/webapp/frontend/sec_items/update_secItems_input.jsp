@@ -163,11 +163,8 @@ th, td {
 
 
 			<tr>
-				<!-- 		<td>狀態:</td> -->
-				<!-- 		<td><input type="hidden" name="comm" size="45" -->
-				<%-- 			 value="<%=secItemsVO.getShStatus()%>" /></td> --%>
-
-				<td><input type="hidden" name="shStatus"
+						<td>狀態:</td>
+				<td><input type="text" name="shStatus"
 					value="<%=secItemsVO.getShStatus()%>" /></td>
 			</tr>
 			<tr>

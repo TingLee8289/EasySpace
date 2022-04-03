@@ -1,6 +1,6 @@
 import org.hibernate.Session;
 
-import ezs.sec_items.model.SecItemsVO;
+import ezs.sec_items.model.entity.SecItemsVO;
 import util.HibernateUtil;
 
 public class TestApp {

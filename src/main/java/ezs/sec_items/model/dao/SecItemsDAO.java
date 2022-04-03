@@ -40,51 +40,63 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	}
 
-	Connection con = null;
-	PreparedStatement pstmt = null;
-	ResultSet rs = null;
+
 
 	@Override
 	public Integer insert(SecItemsVO secItemsVO) {
-		Integer key = 0;
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
-			pstmt.setInt(1, secItemsVO.getShCateID());
-			pstmt.setInt(2, secItemsVO.getShSellerID());
-			pstmt.setString(3, secItemsVO.getShName());
-			pstmt.setBigDecimal(4, secItemsVO.getShPrice());
-			pstmt.setInt(5, secItemsVO.getShQTY());
-			pstmt.setString(6, secItemsVO.getShSize());
-			pstmt.setString(7, secItemsVO.getShDescription());
-			pstmt.setString(8, secItemsVO.getShCondition());
-			pstmt.setString(9, secItemsVO.getShTime());
-			pstmt.setString(10, secItemsVO.getShGuarantee());
-			pstmt.setInt(11, secItemsVO.getShStatus());
-			pstmt.setString(12, secItemsVO.getShCounty());
-			pstmt.setString(13, secItemsVO.getShDist());
-			pstmt.executeUpdate();
-
-			ResultSet rs = pstmt.getGeneratedKeys();
-			if (rs.next()) {
-				key = rs.getInt(1); // 只支援欄位索引值取得自增主鍵值
-				System.out.println("自增主鍵值 = " + key + "(剛新增成功的商品編號)");
-			} else {
-				System.out.println("NO KEYS WERE GENERATED.");
-			}
-
-			rs.close();
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
-		return key;
+		
+//		Hibernate寫法
+		getSession().save(secItemsVO);
+		return 0;
+		
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		Integer key = 0;
+//		
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(INSERT_STMT, Statement.RETURN_GENERATED_KEYS);
+//			pstmt.setInt(1, secItemsVO.getShCateID());
+//			pstmt.setInt(2, secItemsVO.getShSellerID());
+//			pstmt.setString(3, secItemsVO.getShName());
+//			pstmt.setBigDecimal(4, secItemsVO.getShPrice());
+//			pstmt.setInt(5, secItemsVO.getShQTY());
+//			pstmt.setString(6, secItemsVO.getShSize());
+//			pstmt.setString(7, secItemsVO.getShDescription());
+//			pstmt.setString(8, secItemsVO.getShCondition());
+//			pstmt.setString(9, secItemsVO.getShTime());
+//			pstmt.setString(10, secItemsVO.getShGuarantee());
+//			pstmt.setInt(11, secItemsVO.getShStatus());
+//			pstmt.setString(12, secItemsVO.getShCounty());
+//			pstmt.setString(13, secItemsVO.getShDist());
+//			pstmt.executeUpdate();
+//
+//			rs = pstmt.getGeneratedKeys();
+//			if (rs.next()) {
+//				key = rs.getInt(1); // 只支援欄位索引值取得自增主鍵值
+//				System.out.println("自增主鍵值 = " + key + "(剛新增成功的商品編號)");
+//			} else {
+//				System.out.println("NO KEYS WERE GENERATED.");
+//			}
+//
+//			rs.close();
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
+//		return key;
 	}
 
 	@Override
 	public void delete(Integer shID) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(DELETE_STMT);
@@ -99,6 +111,10 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	@Override
 	public void update(SecItemsVO secItemsVO) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
 		try {
 			con = ds.getConnection();
 			pstmt = con.prepareStatement(UPDATE_STMT);
@@ -126,7 +142,12 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 	@Override
 	public SecItemsVO findByPrimaryKey(Integer shSellerID, Integer shID) {
 
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		SecItemsVO secItemsVO = null;
+		
 
 		try {
 			con = ds.getConnection();
@@ -163,6 +184,11 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	@Override
 	public List<SecItemsVO> getAll() {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 
@@ -200,6 +226,11 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	@Override
 	public List<SecItemsVO> getAll2(Integer shSellerID) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 
@@ -237,6 +268,11 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	@Override
 	public List<SecItemsVO> findByShCategory(Integer shSellerID, Integer shCateID) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 
@@ -275,6 +311,11 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	@Override
 	public List<SecItemsVO> findByShCategory2(Integer shCateID) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 
@@ -312,6 +353,11 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	@Override
 	public List<SecItemsVO> findByStatus(Integer shSellerID, Integer shStatus) {
+		
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 
@@ -350,6 +396,10 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	@Override
 	public SecItemsVO getOneSecItemsByShID(Integer shID) {
+		Connection con = null;
+		PreparedStatement pstmt = null;
+		ResultSet rs = null;
+		
 		SecItemsVO secItemsVO = null;
 
 		try {

@@ -1,8 +1,8 @@
 package ezs.sec_items.controller;
 
-import java.io.*;
-import java.math.BigDecimal;
-import java.util.*;
+import java.io.IOException;
+import java.util.LinkedList;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ezs.sec_items.model.SecItemsService;
-import ezs.sec_items.model.SecItemsVO;
+import ezs.sec_items.model.entity.SecItemsVO;
+import ezs.sec_items.model.service.SecItemsService;
 
 @WebServlet("/sec_items/GetSecItemsServlet.do")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)

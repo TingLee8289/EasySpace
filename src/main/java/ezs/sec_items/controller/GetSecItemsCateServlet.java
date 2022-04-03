@@ -13,8 +13,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import ezs.sec_items.model.SecItemsService;
-import ezs.sec_items.model.SecItemsVO;
+import ezs.sec_items.model.entity.SecItemsVO;
+import ezs.sec_items.model.service.SecItemsService;
 
 @WebServlet("/sec_items/GetSecItemsCateServlet.do")
 @MultipartConfig(fileSizeThreshold = 1024 * 1024, maxFileSize = 5 * 1024 * 1024, maxRequestSize = 5 * 5 * 1024 * 1024)

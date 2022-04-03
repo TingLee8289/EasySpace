@@ -2,11 +2,22 @@
 <!DOCTYPE xml>
 <Context>
 
+
+	<!-- JDBC driver -->
+<!-- 	<Resource auth="Container" -->
+<!-- 		driverClassName="com.mysql.cj.jdbc.Driver" maxIdle="10" maxTotal="20" -->
+<!-- 		maxWaitMillis="-1" name="jdbc/CFA104G5" password="password" -->
+<!-- 		type="javax.sql.DataSource" -->
+<!-- 		url="jdbc:mysql://localhost:3306/cfa104g5?serverTimezone=Asia/Taipei" -->
+<!-- 		username="root" /> -->
+
+	<!-- HikariCP -->
 	<Resource name="jdbc/CFA104G5" auth="Container"
 		type="javax.sql.DataSource" driverClassName="com.mysql.cj.jdbc.Driver"
-		jdbcUrl="jdbc:mysql://localhost:3306/CFA104G5?serverTimezone=Asia/Taipei"
+		jdbcUrl="jdbc:mysql://localhost:3306/cfa104g5?serverTimezone=Asia/Taipei"
 		username="root" password="password"
 		factory="com.zaxxer.hikari.HikariJNDIFactory" minimumIdle="5"
 		maximumPoolSize="10" connectionTimeout="30000" />
+
 
 </Context>
