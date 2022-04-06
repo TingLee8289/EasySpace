@@ -70,51 +70,82 @@ public class SecItemsService implements SecItemsService_interface {
 
 	@Override
 	public SecItemsVO updateSecItems(SecItemsVO secItemsVO, SecPicsVO secPicsVO) {
-		Integer id = dao.insert(secItemsVO);
+		try {
+			beginTransaction();
+			Integer id = dao.insert(secItemsVO);
 //		DAO新增出來才會產生的ShID 讓它對應Pics
-		secPicsVO.setShID(id);
-		// picDao 傳到關聯表格
-		daosecpic.update(secPicsVO);
-		return secItemsVO;
+			secPicsVO.setShID(id);
+			// picDao 傳到關聯表格
+			daosecpic.update(secPicsVO);
+			commit();
+			return secItemsVO;
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback();
+			return null;
+		}
 
 	}
 
 	@Override
-	public SecItemsVO updateSecItems(Integer shID, Integer shCateID, Integer shSellerID, String shName,
-			BigDecimal shPrice, Integer shQTY, String shSize, String shDescription, String shCondition, String shTime,
-			String shGuarantee, Integer shStatus, String shCounty, String shDist) {
+	public SecItemsVO updateSecItems(Integer shID, Integer shCateID, Integer shSellerID, String shName, BigDecimal shPrice,
+			Integer shQTY, String shSize, String shDescription, String shCondition, String shTime, String shGuarantee,
+			Integer shStatus, String shCounty, String shDist) {
 
-		SecItemsVO secItemsVO = new SecItemsVO();
-
-		secItemsVO.setShID(shID);
-		secItemsVO.setShCateID(shCateID);
-		secItemsVO.setShSellerID(shSellerID);
-		secItemsVO.setShName(shName);
-		secItemsVO.setShPrice(shPrice);
-		secItemsVO.setShQTY(shQTY);
-		secItemsVO.setShSize(shSize);
-		secItemsVO.setShDescription(shDescription);
-		secItemsVO.setShCondition(shCondition);
-		secItemsVO.setShTime(shTime);
-		secItemsVO.setShGuarantee(shGuarantee);
-		secItemsVO.setShStatus(shStatus);
-		secItemsVO.setShCounty(shCounty);
-		secItemsVO.setShDist(shDist);
-		secItemsVO.setShID(shID);
-		dao.update(secItemsVO);
-
-		return secItemsVO;
+		try {
+			beginTransaction();
+			SecItemsVO secItemsVO = new SecItemsVO();
+			secItemsVO.setShID(shID);
+			secItemsVO.setShCateID(shCateID);
+			secItemsVO.setShSellerID(shSellerID);
+			secItemsVO.setShName(shName);
+			secItemsVO.setShPrice(shPrice);
+			secItemsVO.setShQTY(shQTY);
+			secItemsVO.setShSize(shSize);
+			secItemsVO.setShDescription(shDescription);
+			secItemsVO.setShCondition(shCondition);
+			secItemsVO.setShTime(shTime);
+			secItemsVO.setShGuarantee(shGuarantee);
+			secItemsVO.setShStatus(shStatus);
+			secItemsVO.setShCounty(shCounty);
+			secItemsVO.setShDist(shDist);
+			secItemsVO.setShID(shID);
+			dao.update(secItemsVO);
+			commit();
+			return secItemsVO;
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback();
+			return null;
+		}
 	}
 
 	@Override
 	public void deleteSecItems(Integer shID) {
-
-		dao.delete(shID);
+		try {
+			beginTransaction();
+			dao.delete(shID);
+			commit();
+			return;
+		} catch (Exception e) {
+			rollback();
+			e.printStackTrace();
+			return;
+		}
 	}
 
 	@Override
 	public SecItemsVO getOneSecItems(Integer shSellerID, Integer shID) {
-		return dao.getBySellerIDandshID(shSellerID, shID);
+		try {
+			beginTransaction();
+			SecItemsVO secItemsVO = dao.getBySellerIDandshID(shSellerID, shID);
+			commit();
+			return secItemsVO;
+		} catch (Exception e) {
+			rollback();
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override
@@ -133,7 +164,16 @@ public class SecItemsService implements SecItemsService_interface {
 
 	@Override
 	public List<SecItemsVO> getBySellerID(Integer shSellerID) {
-		return dao.getBySellerID(shSellerID);
+		try {
+			beginTransaction();
+			List<SecItemsVO> list = dao.getBySellerID(shSellerID);
+			commit();
+			return list;
+		} catch (Exception e) {
+			rollback();
+			e.printStackTrace();
+			return null;
+		}
 	}
 
 	@Override

@@ -5,7 +5,7 @@
 <%-- 此頁暫練習採用 Script 的寫法取值 --%>
 
 <%
-SecItemsVO secItemsVO = (SecItemsVO) request.getAttribute("secItemsVO"); //EmpServlet.java(Concroller), 存入req的empVO物件
+SecItemsVO secItemsVO = (SecItemsVO) request.getAttribute("secItemsVO"); //EmpServlet.java(Controller), 存入req的empVO物件
 Integer memID = (Integer) session.getAttribute("memID");
 %>
 
