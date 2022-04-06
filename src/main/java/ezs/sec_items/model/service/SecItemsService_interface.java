@@ -27,7 +27,7 @@ public interface SecItemsService_interface extends CoreService_interface{
 
 	public List<SecItemsVO> getAll();
 
-	public List<SecItemsVO> getAll2(Integer shSellerID);
+	public List<SecItemsVO> getBySellerID(Integer shSellerID);
 
 	public List<SecItemsVO> getByCategory(Integer shSellerID, Integer shCateID);
 

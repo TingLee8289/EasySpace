@@ -127,7 +127,7 @@ public class SecItemsJNDIDAO implements SecItemsDAO_interface {
 	}
 
 	@Override
-	public SecItemsVO findByPrimaryKey(Integer shSellerID, Integer shID) {
+	public SecItemsVO getBySellerIDandshID(Integer shSellerID, Integer shID) {
 
 		SecItemsVO secItemsVO = null;
 
@@ -204,7 +204,7 @@ public class SecItemsJNDIDAO implements SecItemsDAO_interface {
 		return list;
 	}
 	@Override
-	public List<SecItemsVO> getAll2(Integer shSellerID) {
+	public List<SecItemsVO> getBySellerID(Integer shSellerID) {
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 		
@@ -280,7 +280,7 @@ public class SecItemsJNDIDAO implements SecItemsDAO_interface {
 	}
 	
 	@Override
-	public List<SecItemsVO> findByShCategory2(Integer shCateID) {
+	public List<SecItemsVO> getByCateID(Integer shCateID) {
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 		
@@ -317,7 +317,7 @@ public class SecItemsJNDIDAO implements SecItemsDAO_interface {
 		
 	}
 	@Override
-	public List<SecItemsVO> findByStatus(Integer shSellerID,Integer shStatus) {
+	public List<SecItemsVO> getBySellerIDandStatus(Integer shSellerID,Integer shStatus) {
 		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
 		SecItemsVO secItemsVO = null;
 		

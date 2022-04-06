@@ -12,17 +12,17 @@ public interface SecItemsDAO_interface extends CoreDAO_interface{
 
 	public void delete(Integer shID);
 
-	public SecItemsVO findByPrimaryKey(Integer shSellerID, Integer shID);
+	public SecItemsVO getBySellerIDandshID(Integer shSellerID, Integer shID);
 
 	public SecItemsVO getOneSecItemsByShID(Integer shID);
 
 	public List<SecItemsVO> findByShCategory(Integer shSellerID, Integer shCateID);
 
-	public List<SecItemsVO> findByShCategory2(Integer shCateID);
+	public List<SecItemsVO> getByCateID(Integer shCateID);
 
 	public List<SecItemsVO> getAll();
 
-	public List<SecItemsVO> getAll2(Integer shSellerID);
+	public List<SecItemsVO> getBySellerID(Integer shSellerID);
 
-	public List<SecItemsVO> findByStatus(Integer shSellerID, Integer shStatus);
+	public List<SecItemsVO> getBySellerIDandStatus(Integer shSellerID, Integer shStatus);
 }

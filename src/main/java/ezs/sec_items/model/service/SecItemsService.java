@@ -114,17 +114,26 @@ public class SecItemsService implements SecItemsService_interface {
 
 	@Override
 	public SecItemsVO getOneSecItems(Integer shSellerID, Integer shID) {
-		return dao.findByPrimaryKey(shSellerID, shID);
+		return dao.getBySellerIDandshID(shSellerID, shID);
 	}
 
 	@Override
 	public List<SecItemsVO> getAll() {
-		return dao.getAll();
+		try {
+			beginTransaction();
+			List<SecItemsVO> list = dao.getAll();
+			commit();
+			return list;
+		} catch (Exception e) {
+			e.printStackTrace();
+			rollback();
+			return null;
+		}
 	}
 
 	@Override
-	public List<SecItemsVO> getAll2(Integer shSellerID) {
-		return dao.getAll2(shSellerID);
+	public List<SecItemsVO> getBySellerID(Integer shSellerID) {
+		return dao.getBySellerID(shSellerID);
 	}
 
 	@Override
@@ -134,12 +143,12 @@ public class SecItemsService implements SecItemsService_interface {
 
 	@Override
 	public List<SecItemsVO> getByCategory2(Integer shCateID) {
-		return dao.findByShCategory2(shCateID);
+		return dao.getByCateID(shCateID);
 	}
 
 	@Override
 	public List<SecItemsVO> getByStatus(Integer shSellerID, Integer shStatus) {
-		return dao.findByStatus(shSellerID, shStatus);
+		return dao.getBySellerIDandStatus(shSellerID, shStatus);
 	}
 
 	@Override

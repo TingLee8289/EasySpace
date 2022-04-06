@@ -1,20 +1,17 @@
 package ezs.sec_items.model.dao;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
+import java.lang.reflect.Member;
 import java.util.List;
 
-import javax.naming.Context;
-import javax.naming.InitialContext;
-import javax.naming.NamingException;
-import javax.sql.DataSource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+
+import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
+import org.hibernate.query.Query;
 
 import ezs.sec_items.model.entity.SecItemsVO;
-import util.Util;
+import util.HibernateUtil;
 
 public class SecItemsDAO implements SecItemsDAO_interface {
 
@@ -28,27 +25,25 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 	private static final String GET_BY_CATE_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid =? AND sh_cate_id=?";
 	private static final String GET_BY_CATE_STMT2 = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_cate_id=?";
 	private static final String GET_STATUS_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid =? AND sh_status = ?";
-
-	private static DataSource ds = null;
-	static {
-		try {
-			Context ctx = new InitialContext();
-			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/CFA104G5");
-		} catch (NamingException e) {
-			e.printStackTrace();
-		}
-
-	}
-
-
+//
+//	private static DataSource ds = null;
+//	static {
+//		try {
+//			Context ctx = new InitialContext();
+//			ds = (DataSource) ctx.lookup("java:comp/env/jdbc/CFA104G5");
+//		} catch (NamingException e) {
+//			e.printStackTrace();
+//		}
+//
+//	}
 
 	@Override
 	public Integer insert(SecItemsVO secItemsVO) {
-		
+
 //		Hibernate寫法
-		getSession().save(secItemsVO);
-		return 0;
-		
+		Integer id = (Integer) getSession().save(secItemsVO);
+		return id;
+
 //		原JDBC寫法
 //		Connection con = null;
 //		PreparedStatement pstmt = null;
@@ -93,345 +88,399 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 	@Override
 	public void delete(Integer shID) {
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(DELETE_STMT);
-			pstmt.setInt(1, shID);
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
+
+//		Hibernate寫法
+		Session session = getSession();
+		SecItemsVO secItemsVO = session.load(SecItemsVO.class, shID);
+		session.delete(secItemsVO);
+		return;
+
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(DELETE_STMT);
+//			pstmt.setInt(1, shID);
+//			pstmt.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
 	}
 
 	@Override
 	public void update(SecItemsVO secItemsVO) {
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(UPDATE_STMT);
-			pstmt.setInt(1, secItemsVO.getShCateID());
-			pstmt.setString(2, secItemsVO.getShName());
-			pstmt.setBigDecimal(3, secItemsVO.getShPrice());
-			pstmt.setInt(4, secItemsVO.getShQTY());
-			pstmt.setString(5, secItemsVO.getShSize());
-			pstmt.setString(6, secItemsVO.getShDescription());
-			pstmt.setString(7, secItemsVO.getShCondition());
-			pstmt.setString(8, secItemsVO.getShTime());
-			pstmt.setString(9, secItemsVO.getShGuarantee());
-			pstmt.setString(10, secItemsVO.getShCounty());
-			pstmt.setString(11, secItemsVO.getShDist());
-			pstmt.setInt(12, secItemsVO.getShID());
 
-			pstmt.executeUpdate();
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
+//		Hibernate寫法
+		Session session = getSession();
+		session.load(SecItemsVO.class, session);
+
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(UPDATE_STMT);
+//			pstmt.setInt(1, secItemsVO.getShCateID());
+//			pstmt.setString(2, secItemsVO.getShName());
+//			pstmt.setBigDecimal(3, secItemsVO.getShPrice());
+//			pstmt.setInt(4, secItemsVO.getShQTY());
+//			pstmt.setString(5, secItemsVO.getShSize());
+//			pstmt.setString(6, secItemsVO.getShDescription());
+//			pstmt.setString(7, secItemsVO.getShCondition());
+//			pstmt.setString(8, secItemsVO.getShTime());
+//			pstmt.setString(9, secItemsVO.getShGuarantee());
+//			pstmt.setString(10, secItemsVO.getShCounty());
+//			pstmt.setString(11, secItemsVO.getShDist());
+//			pstmt.setInt(12, secItemsVO.getShID());
+//
+//			pstmt.executeUpdate();
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
 	}
 
 	@Override
-	public SecItemsVO findByPrimaryKey(Integer shSellerID, Integer shID) {
+	public SecItemsVO getBySellerIDandshID(Integer shSellerID, Integer shID) {
 
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		SecItemsVO secItemsVO = null;
-		
-
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ONE_STMT);
-			pstmt.setInt(1, shSellerID);
-			pstmt.setInt(2, shID);
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				secItemsVO = new SecItemsVO();
-				secItemsVO.setShID(rs.getInt("sh_id"));
-				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
-				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
-				secItemsVO.setShName(rs.getString("sh_name"));
-				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
-				secItemsVO.setShQTY(rs.getInt("sh_qty"));
-				secItemsVO.setShSize(rs.getString("sh_size"));
-				secItemsVO.setShDescription(rs.getString("sh_description"));
-				secItemsVO.setShCondition(rs.getString("sh_condition"));
-				secItemsVO.setShTime(rs.getString("sh_time"));
-				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
-				secItemsVO.setShStatus(rs.getInt("sh_status"));
-				secItemsVO.setShCounty(rs.getString("sh_county"));
-				secItemsVO.setShDist(rs.getString("sh_dist"));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
+//		Hibernate寫法 (HQL)
+		final StringBuilder hql = new StringBuilder()
+				.append("FROM SecItemsVO WHERE shSellerID = :shSellerID AND shID = :shID");
+		Query<SecItemsVO> query = getSession().createQuery(hql.toString(), SecItemsVO.class);
+		SecItemsVO secItemsVO = query.uniqueResult();
 		return secItemsVO;
+
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		SecItemsVO secItemsVO = null;
+//		
+//
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(GET_ONE_STMT);
+//			pstmt.setInt(1, shSellerID);
+//			pstmt.setInt(2, shID);
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				secItemsVO = new SecItemsVO();
+//				secItemsVO.setShID(rs.getInt("sh_id"));
+//				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
+//				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
+//				secItemsVO.setShName(rs.getString("sh_name"));
+//				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
+//				secItemsVO.setShQTY(rs.getInt("sh_qty"));
+//				secItemsVO.setShSize(rs.getString("sh_size"));
+//				secItemsVO.setShDescription(rs.getString("sh_description"));
+//				secItemsVO.setShCondition(rs.getString("sh_condition"));
+//				secItemsVO.setShTime(rs.getString("sh_time"));
+//				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
+//				secItemsVO.setShStatus(rs.getInt("sh_status"));
+//				secItemsVO.setShCounty(rs.getString("sh_county"));
+//				secItemsVO.setShDist(rs.getString("sh_dist"));
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
+//		return secItemsVO;
 	}
 
 	@Override
 	public List<SecItemsVO> getAll() {
 		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
+//		Hibernate寫法 (HQL)
+		final String hql = "FROM SecItemsVO ORDER BY shID";
+		return getSession().createQuery(hql, SecItemsVO.class).list();
 		
-		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
-		SecItemsVO secItemsVO = null;
-
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ALL_STMT);
-
-			rs = pstmt.executeQuery();
-
-			while (rs.next()) {
-				secItemsVO = new SecItemsVO();
-				secItemsVO.setShID(rs.getInt("sh_id"));
-				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
-				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
-				secItemsVO.setShName(rs.getString("sh_name"));
-				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
-				secItemsVO.setShQTY(rs.getInt("sh_qty"));
-				secItemsVO.setShSize(rs.getString("sh_size"));
-				secItemsVO.setShDescription(rs.getString("sh_description"));
-				secItemsVO.setShCondition(rs.getString("sh_condition"));
-				secItemsVO.setShTime(rs.getString("sh_time"));
-				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
-				secItemsVO.setShStatus(rs.getInt("sh_status"));
-				secItemsVO.setShCounty(rs.getString("sh_county"));
-				secItemsVO.setShDist(rs.getString("sh_dist"));
-				list.add(secItemsVO);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
-		return list;
+//		Hibernate寫法 (CriteriaQuery)
+//		CriteriaBuilder criteriaBuilder = getSession().getCriteriaBuilder();
+//		CriteriaQuery<SecItemsVO> criteriaQuery = criteriaBuilder.createQuery(SecItemsVO.class);
+//		Query<SecItemsVO> query = getSession().createQuery(criteriaQuery);
+//		List<SecItemsVO> list = query.list();
+//		return list;
+		
+//		Hibernate寫法 (Native SQL)
+//		NativeQuery<SecItemsVO> nativeQuery = getSession().createSQLQuery(GET_ALL_STMT);
+//		nativeQuery.addEntity(SecItemsVO.class);
+//		List<SecItemsVO> list = nativeQuery.list();
+//		return list;
+		
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
+//		SecItemsVO secItemsVO = null;
+//
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(GET_ALL_STMT);
+//
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				secItemsVO = new SecItemsVO();
+//				secItemsVO.setShID(rs.getInt("sh_id"));
+//				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
+//				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
+//				secItemsVO.setShName(rs.getString("sh_name"));
+//				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
+//				secItemsVO.setShQTY(rs.getInt("sh_qty"));
+//				secItemsVO.setShSize(rs.getString("sh_size"));
+//				secItemsVO.setShDescription(rs.getString("sh_description"));
+//				secItemsVO.setShCondition(rs.getString("sh_condition"));
+//				secItemsVO.setShTime(rs.getString("sh_time"));
+//				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
+//				secItemsVO.setShStatus(rs.getInt("sh_status"));
+//				secItemsVO.setShCounty(rs.getString("sh_county"));
+//				secItemsVO.setShDist(rs.getString("sh_dist"));
+//				list.add(secItemsVO);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
+//		return list;
 	}
 
 	@Override
-	public List<SecItemsVO> getAll2(Integer shSellerID) {
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
-		SecItemsVO secItemsVO = null;
+	public List<SecItemsVO> getBySellerID(Integer shSellerID) {
 
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ALL_STMT2);
-			pstmt.setInt(1, shSellerID);
-			rs = pstmt.executeQuery();
+//		Hibernate寫法
 
-			while (rs.next()) {
-				secItemsVO = new SecItemsVO();
-				secItemsVO.setShID(rs.getInt("sh_id"));
-				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
-				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
-				secItemsVO.setShName(rs.getString("sh_name"));
-				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
-				secItemsVO.setShQTY(rs.getInt("sh_qty"));
-				secItemsVO.setShSize(rs.getString("sh_size"));
-				secItemsVO.setShDescription(rs.getString("sh_description"));
-				secItemsVO.setShCondition(rs.getString("sh_condition"));
-				secItemsVO.setShTime(rs.getString("sh_time"));
-				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
-				secItemsVO.setShStatus(rs.getInt("sh_status"));
-				secItemsVO.setShCounty(rs.getString("sh_county"));
-				secItemsVO.setShDist(rs.getString("sh_dist"));
-				list.add(secItemsVO);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
-		return list;
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
+//		SecItemsVO secItemsVO = null;
+//
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(GET_ALL_STMT2);
+//			pstmt.setInt(1, shSellerID);
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				secItemsVO = new SecItemsVO();
+//				secItemsVO.setShID(rs.getInt("sh_id"));
+//				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
+//				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
+//				secItemsVO.setShName(rs.getString("sh_name"));
+//				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
+//				secItemsVO.setShQTY(rs.getInt("sh_qty"));
+//				secItemsVO.setShSize(rs.getString("sh_size"));
+//				secItemsVO.setShDescription(rs.getString("sh_description"));
+//				secItemsVO.setShCondition(rs.getString("sh_condition"));
+//				secItemsVO.setShTime(rs.getString("sh_time"));
+//				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
+//				secItemsVO.setShStatus(rs.getInt("sh_status"));
+//				secItemsVO.setShCounty(rs.getString("sh_county"));
+//				secItemsVO.setShDist(rs.getString("sh_dist"));
+//				list.add(secItemsVO);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
+//		return list;
 	}
 
 	@Override
 	public List<SecItemsVO> findByShCategory(Integer shSellerID, Integer shCateID) {
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
-		SecItemsVO secItemsVO = null;
 
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_CATE_STMT);
-			pstmt.setInt(1, shSellerID);
-			pstmt.setInt(2, shCateID);
-			rs = pstmt.executeQuery();
+//		Hibernate寫法
 
-			while (rs.next()) {
-				secItemsVO = new SecItemsVO();
-				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
-				secItemsVO.setShID(rs.getInt("sh_id"));
-				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
-				secItemsVO.setShName(rs.getString("sh_name"));
-				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
-				secItemsVO.setShQTY(rs.getInt("sh_qty"));
-				secItemsVO.setShSize(rs.getString("sh_size"));
-				secItemsVO.setShDescription(rs.getString("sh_description"));
-				secItemsVO.setShCondition(rs.getString("sh_condition"));
-				secItemsVO.setShTime(rs.getString("sh_time"));
-				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
-				secItemsVO.setShStatus(rs.getInt("sh_status"));
-				secItemsVO.setShCounty(rs.getString("sh_county"));
-				secItemsVO.setShDist(rs.getString("sh_dist"));
-				list.add(secItemsVO);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
-		return list;
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
+//		SecItemsVO secItemsVO = null;
+//
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(GET_BY_CATE_STMT);
+//			pstmt.setInt(1, shSellerID);
+//			pstmt.setInt(2, shCateID);
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				secItemsVO = new SecItemsVO();
+//				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
+//				secItemsVO.setShID(rs.getInt("sh_id"));
+//				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
+//				secItemsVO.setShName(rs.getString("sh_name"));
+//				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
+//				secItemsVO.setShQTY(rs.getInt("sh_qty"));
+//				secItemsVO.setShSize(rs.getString("sh_size"));
+//				secItemsVO.setShDescription(rs.getString("sh_description"));
+//				secItemsVO.setShCondition(rs.getString("sh_condition"));
+//				secItemsVO.setShTime(rs.getString("sh_time"));
+//				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
+//				secItemsVO.setShStatus(rs.getInt("sh_status"));
+//				secItemsVO.setShCounty(rs.getString("sh_county"));
+//				secItemsVO.setShDist(rs.getString("sh_dist"));
+//				list.add(secItemsVO);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
+//		return list;
 	}
 
 	@Override
-	public List<SecItemsVO> findByShCategory2(Integer shCateID) {
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
-		SecItemsVO secItemsVO = null;
+	public List<SecItemsVO> getByCateID(Integer shCateID) {
 
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_BY_CATE_STMT2);
-			pstmt.setInt(1, shCateID);
-			rs = pstmt.executeQuery();
+//		Hibernate寫法
 
-			while (rs.next()) {
-				secItemsVO = new SecItemsVO();
-				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
-				secItemsVO.setShID(rs.getInt("sh_id"));
-				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
-				secItemsVO.setShName(rs.getString("sh_name"));
-				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
-				secItemsVO.setShQTY(rs.getInt("sh_qty"));
-				secItemsVO.setShSize(rs.getString("sh_size"));
-				secItemsVO.setShDescription(rs.getString("sh_description"));
-				secItemsVO.setShCondition(rs.getString("sh_condition"));
-				secItemsVO.setShTime(rs.getString("sh_time"));
-				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
-				secItemsVO.setShStatus(rs.getInt("sh_status"));
-				secItemsVO.setShCounty(rs.getString("sh_county"));
-				secItemsVO.setShDist(rs.getString("sh_dist"));
-				list.add(secItemsVO);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
-		return list;
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
+//		SecItemsVO secItemsVO = null;
+//
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(GET_BY_CATE_STMT2);
+//			pstmt.setInt(1, shCateID);
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				secItemsVO = new SecItemsVO();
+//				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
+//				secItemsVO.setShID(rs.getInt("sh_id"));
+//				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
+//				secItemsVO.setShName(rs.getString("sh_name"));
+//				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
+//				secItemsVO.setShQTY(rs.getInt("sh_qty"));
+//				secItemsVO.setShSize(rs.getString("sh_size"));
+//				secItemsVO.setShDescription(rs.getString("sh_description"));
+//				secItemsVO.setShCondition(rs.getString("sh_condition"));
+//				secItemsVO.setShTime(rs.getString("sh_time"));
+//				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
+//				secItemsVO.setShStatus(rs.getInt("sh_status"));
+//				secItemsVO.setShCounty(rs.getString("sh_county"));
+//				secItemsVO.setShDist(rs.getString("sh_dist"));
+//				list.add(secItemsVO);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
+//		return list;
 	}
 
 	@Override
-	public List<SecItemsVO> findByStatus(Integer shSellerID, Integer shStatus) {
-		
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
-		SecItemsVO secItemsVO = null;
+	public List<SecItemsVO> getBySellerIDandStatus(Integer shSellerID, Integer shStatus) {
 
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_STATUS_STMT);
-			pstmt.setInt(1, shSellerID);
-			pstmt.setInt(2, shStatus);
-			rs = pstmt.executeQuery();
+//		Hibernate寫法
 
-			while (rs.next()) {
-				secItemsVO = new SecItemsVO();
-				secItemsVO.setShStatus(rs.getInt("sh_status"));
-				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
-				secItemsVO.setShID(rs.getInt("sh_id"));
-				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
-				secItemsVO.setShName(rs.getString("sh_name"));
-				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
-				secItemsVO.setShQTY(rs.getInt("sh_qty"));
-				secItemsVO.setShSize(rs.getString("sh_size"));
-				secItemsVO.setShDescription(rs.getString("sh_description"));
-				secItemsVO.setShCondition(rs.getString("sh_condition"));
-				secItemsVO.setShTime(rs.getString("sh_time"));
-				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
-				secItemsVO.setShCounty(rs.getString("sh_county"));
-				secItemsVO.setShDist(rs.getString("sh_dist"));
-				list.add(secItemsVO);
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
-		return list;
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		List<SecItemsVO> list = new ArrayList<SecItemsVO>();
+//		SecItemsVO secItemsVO = null;
+//
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(GET_STATUS_STMT);
+//			pstmt.setInt(1, shSellerID);
+//			pstmt.setInt(2, shStatus);
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				secItemsVO = new SecItemsVO();
+//				secItemsVO.setShStatus(rs.getInt("sh_status"));
+//				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
+//				secItemsVO.setShID(rs.getInt("sh_id"));
+//				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
+//				secItemsVO.setShName(rs.getString("sh_name"));
+//				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
+//				secItemsVO.setShQTY(rs.getInt("sh_qty"));
+//				secItemsVO.setShSize(rs.getString("sh_size"));
+//				secItemsVO.setShDescription(rs.getString("sh_description"));
+//				secItemsVO.setShCondition(rs.getString("sh_condition"));
+//				secItemsVO.setShTime(rs.getString("sh_time"));
+//				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
+//				secItemsVO.setShCounty(rs.getString("sh_county"));
+//				secItemsVO.setShDist(rs.getString("sh_dist"));
+//				list.add(secItemsVO);
+//			}
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
+//		return list;
 	}
 
 	@Override
 	public SecItemsVO getOneSecItemsByShID(Integer shID) {
-		Connection con = null;
-		PreparedStatement pstmt = null;
-		ResultSet rs = null;
-		
-		SecItemsVO secItemsVO = null;
 
-		try {
-			con = ds.getConnection();
-			pstmt = con.prepareStatement(GET_ONE_STMT2);
-			pstmt.setInt(1, shID);
-			rs = pstmt.executeQuery();
+//		Hibernate寫法
 
-			while (rs.next()) {
-				secItemsVO = new SecItemsVO();
-				secItemsVO.setShID(rs.getInt("sh_id"));
-				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
-				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
-				secItemsVO.setShName(rs.getString("sh_name"));
-				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
-				secItemsVO.setShQTY(rs.getInt("sh_qty"));
-				secItemsVO.setShSize(rs.getString("sh_size"));
-				secItemsVO.setShDescription(rs.getString("sh_description"));
-				secItemsVO.setShCondition(rs.getString("sh_condition"));
-				secItemsVO.setShTime(rs.getString("sh_time"));
-				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
-				secItemsVO.setShStatus(rs.getInt("sh_status"));
-				secItemsVO.setShCounty(rs.getString("sh_county"));
-				secItemsVO.setShDist(rs.getString("sh_dist"));
-			}
-
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			Util.closeResource(con, pstmt, rs);
-		}
-		return secItemsVO;
+//		原JDBC寫法
+//		Connection con = null;
+//		PreparedStatement pstmt = null;
+//		ResultSet rs = null;
+//		
+//		SecItemsVO secItemsVO = null;
+//
+//		try {
+//			con = ds.getConnection();
+//			pstmt = con.prepareStatement(GET_ONE_STMT2);
+//			pstmt.setInt(1, shID);
+//			rs = pstmt.executeQuery();
+//
+//			while (rs.next()) {
+//				secItemsVO = new SecItemsVO();
+//				secItemsVO.setShID(rs.getInt("sh_id"));
+//				secItemsVO.setShCateID(rs.getInt("sh_cate_id"));
+//				secItemsVO.setShSellerID(rs.getInt("sh_sellerid"));
+//				secItemsVO.setShName(rs.getString("sh_name"));
+//				secItemsVO.setShPrice(rs.getBigDecimal("sh_price"));
+//				secItemsVO.setShQTY(rs.getInt("sh_qty"));
+//				secItemsVO.setShSize(rs.getString("sh_size"));
+//				secItemsVO.setShDescription(rs.getString("sh_description"));
+//				secItemsVO.setShCondition(rs.getString("sh_condition"));
+//				secItemsVO.setShTime(rs.getString("sh_time"));
+//				secItemsVO.setShGuarantee(rs.getString("sh_guarantee"));
+//				secItemsVO.setShStatus(rs.getInt("sh_status"));
+//				secItemsVO.setShCounty(rs.getString("sh_county"));
+//				secItemsVO.setShDist(rs.getString("sh_dist"));
+//			}
+//
+//		} catch (SQLException e) {
+//			e.printStackTrace();
+//		} finally {
+//			Util.closeResource(con, pstmt, rs);
+//		}
+//		return secItemsVO;
 	}
 
 //	@Override
