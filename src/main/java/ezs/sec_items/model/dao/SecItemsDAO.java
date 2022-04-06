@@ -151,6 +151,7 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 		
 //		Hibernate寫法  (HQL)
 		
+		
 
 //		Hibernate寫法 (CriteriaQuery)
 
