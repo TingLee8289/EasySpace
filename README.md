@@ -1,2 +1,2 @@
 # EasySpace
-A virtual platform combined rental listing, business matching and used goods selling.
+A virtual platform combined rental listing, service matching and used goods selling.
