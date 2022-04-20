@@ -62,7 +62,7 @@
 				<div class="row mb-5 justify-content-center">
 					<div class="col-lg-8 col-sm-12 form-group" style="width: 650px; padding: 0 10px 0 0;">
 						<input class="form-control form-control-lg"
-							placeholder="Search keyword" type="text" style="font-size: 10px; width: 620px; margin-left: 40px"/>
+							placeholder="Search keyword" type="text" style="font-size: 10px; width: 620px; margin-left: 99 px"/>
 					</div>
 		
 					<div class="col-lg-3 col-sm-12 form-group" style="width:100px">
