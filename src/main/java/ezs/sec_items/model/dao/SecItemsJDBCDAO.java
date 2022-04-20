@@ -16,7 +16,7 @@ import javax.sql.DataSource;
 import ezs.sec_items.model.entity.SecItemsVO;
 import util.Util;
 
-public class SecItemsJNDIDAO implements SecItemsDAO_interface {
+public class SecItemsJDBCDAO implements SecItemsDAO_interface {
 
 	private static final String INSERT_STMT = "INSERT INTO `CFA104G5`.`SEC_ITEMS` (sh_cate_id, sh_sellerid, sh_name, sh_price, sh_qty, "
 			+ "sh_size, sh_description, sh_condition, sh_time, sh_guarantee, sh_status, sh_county, sh_dist) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";

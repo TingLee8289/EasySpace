@@ -1,5 +1,7 @@
 package ezs.sec_items.model.dao;
 
+import static util.Util.getConnection;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -15,10 +17,12 @@ import javax.sql.DataSource;
 
 import org.hibernate.Session;
 import org.hibernate.query.Query;
+import org.springframework.stereotype.Component;
 
 import ezs.sec_items.model.entity.SecItemsVO;
 import util.Util;
 
+@Component
 public class SecItemsDAO implements SecItemsDAO_interface {
 
 	private static final String INSERT_STMT = "INSERT INTO `CFA104G5`.`SEC_ITEMS` (sh_cate_id, sh_sellerid, sh_name, sh_price, sh_qty, sh_size, sh_description, sh_condition, sh_time, sh_guarantee, sh_status, sh_county, sh_dist) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
@@ -31,7 +35,7 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 	private static final String GET_BY_CATE_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid =? AND sh_cate_id=?";
 	private static final String GET_BY_CATE_STMT2 = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_cate_id=?";
 	private static final String GET_STATUS_STMT = "SELECT * FROM `CFA104G5`.`SEC_ITEMS` WHERE sh_sellerid =? AND sh_status = ?";
-//
+
 	private static DataSource ds = null;
 	static {
 		try {
@@ -534,6 +538,7 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 
 		try {
 			con = ds.getConnection();
+			con = getConnection();
 			pstmt = con.prepareStatement(GET_ONE_BY_SHID);
 			pstmt.setInt(1, shID);
 			rs = pstmt.executeQuery();
@@ -556,7 +561,7 @@ public class SecItemsDAO implements SecItemsDAO_interface {
 				secItemsVO.setShDist(rs.getString("sh_dist"));
 			}
 
-		} catch (SQLException e) {
+		} catch (SQLException | NamingException e) {
 			e.printStackTrace();
 		} finally {
 			Util.closeResource(con, pstmt, rs);

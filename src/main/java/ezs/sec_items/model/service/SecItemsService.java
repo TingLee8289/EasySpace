@@ -3,6 +3,9 @@ package ezs.sec_items.model.service;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
 import ezs.sec_items.model.dao.SecItemsDAO;
 import ezs.sec_items.model.dao.SecItemsDAO_interface;
 import ezs.sec_items.model.entity.SecItemsVO;
@@ -10,8 +13,11 @@ import ezs.sec_pics.model.SecPicsDAO_interface;
 import ezs.sec_pics.model.SecPicsJDBCDAO;
 import ezs.sec_pics.model.SecPicsVO;
 
+@Component
 public class SecItemsService implements SecItemsService_interface {
+	@Autowired
 	private SecItemsDAO_interface dao;
+	@Autowired
 	private SecPicsDAO_interface daosecpic;
 
 	public SecItemsService() {
