@@ -58,7 +58,7 @@
 	</nav>
 <!-- 	Search Bar 開始-->
 		<div>
-			<form class="form-noborder" style="left: 178px; position: absolute; top: 130px;">
+			<form class="form-noborder" style="left: 277px; position: absolute; top: 130px;">
 				<div class="row mb-5 justify-content-center">
 					<div class="col-lg-8 col-sm-12 form-group" style="width: 650px; padding: 0 10px 0 0;">
 						<input class="form-control form-control-lg"

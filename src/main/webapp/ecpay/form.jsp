@@ -15,7 +15,7 @@ label {
 </style>
 </head>
 <body>
-	<form id="idFormAioCheckOut" method="post" action="<%=request.getContextPath() %>/CheckMacValueServlet">
+	<form id="idFormAioCheckOut" method="post" action="<%=request.getContextPath() %>/SendServlet">
 		
 		
 		
@@ -46,11 +46,6 @@ label {
 			name="ItemName" value="A x1 #B x1" class="form-control" /> 商品名稱以符號 # 分
 		</label> 
 		
-		<label class="col-xs-12">回傳網址 (ReturnURL): <input type="text"
-			name="ReturnURL" value="http://tn.sly-ha.com.tw/demo/hoyo/ECPay.php"
-			class="form-control" />
-		</label> 
-		
 		<label class="col-xs-12">付款方式 (ChoosePayment): <input
 			type="text" name="ChoosePayment" value="Credit" /> Credit:信用卡及
 			AndroidPay AndroidPay: AndroidPay WebATM:網路 ATM ATM:自動櫃員機 CVS:超商代碼
@@ -60,6 +55,7 @@ label {
 		<input type="hidden" name="MerchantID" value="2000132" /> 
 		<input type="hidden" name="HashKey" value="5294y06JbISpM5x9" /> 
 		<input type="hidden" name="HashIV" value="v77hoKGq4kWxNNIS" />
+		<input type="hidden" name="EncryptType " value="1" /> <!-- 固定填入 1，使用 SHA256 加密 -->
 
 		<button type="submit" class="btn btn-default">綠界線上支付</button>
 	</form>

@@ -268,9 +268,9 @@ th, td {
 							<table class="table table-hover table-striped" id="cssTable">
 								<thead text-align:center;>
 									<tr class="thead-dark">
-<!-- 										<th>訂單ID</th> -->
+										<th>訂單ID</th>
 <!-- 										<th>買家ID</th> -->
-										<th>賣家ID</th>
+<!-- 										<th>賣家ID</th> -->
 										<th>收件地址郵遞區號</th>
 										<th>收件地址縣市</th>
 										<th>收件地址鄉鎮區</th>
@@ -294,9 +294,9 @@ th, td {
 
 									<c:forEach var="secOrdVO" items="${listSecOrds_ByShBuyerID}">
 										<tr>
-<%-- 											<td>${secOrdVO.shOrdID}</td> --%>
+											<td>${secOrdVO.shOrdID}</td>
 <%-- 											<td>${secOrdVO.shBuyerID}</td> --%>
-											<td>${secOrdVO.shSellerID}</td>
+<%-- 											<td>${secOrdVO.shSellerID}</td> --%>
 											<td>${secOrdVO.shPostcode}</td>
 											<td>${secOrdVO.shCounty}</td>
 											<td>${secOrdVO.shDist}</td>

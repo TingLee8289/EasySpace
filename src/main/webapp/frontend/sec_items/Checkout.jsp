@@ -585,6 +585,7 @@ img {
 	<form method="post"	action="<%=request.getContextPath()%>/sec_ord/SecOrdServlet.do">
 		<jsp:include page="/frontend/sec_items/shippingForm.jsp"></jsp:include>
 		<input type="hidden" name="action" value="insert">
+		<input type="hidden" name="total" value="<%=total%>">
 	</form>
 	
 	<script>

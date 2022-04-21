@@ -145,8 +145,8 @@ public class SecOrdServlet extends HttpServlet {
 					}
 				Integer shPayment = 11;
 				Integer shOrdStatus = 2;
-				BigDecimal shPrice = new BigDecimal(1000);
-				Date shDate = new java.sql.Date(new java.util.Date().getTime()) ;
+				BigDecimal shPrice = new BigDecimal(req.getParameter("total"));
+				Date shDate = new java.sql.Date(new java.util.Date().getTime());
 				String shNotes = (String) req.getParameter("shNotes");
 				
 				SecOrdVO secOrdVO = new SecOrdVO();
@@ -198,7 +198,7 @@ public class SecOrdServlet extends HttpServlet {
 
 				/*************************** 3.新增完成,準備轉交(Send the Success view) ************/
 
-				String url = "/frontend/EZ_home.jsp"; // 暫時設定跳轉到首頁
+				String url = "/frontend/EZ_home.jsp";
 				RequestDispatcher successView = req.getRequestDispatcher(url);
 				successView.forward(req, res);
 
