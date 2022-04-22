@@ -17,7 +17,8 @@ Set<SecOrdVO> listSecOrds_ByShBuyerID = secOrdSvc.getSecOrdByShBuyerID(memID);
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no" />
 <title>EASY SPACE</title>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+<script
+	src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css"
 	rel="stylesheet" />
@@ -174,7 +175,8 @@ th, td {
 				<div class="sb-sidenav-menu">
 					<div class="nav">
 						<div class="sb-sidenav-menu-heading">管理專區</div>
-						<a class="nav-link" href="<%= request.getContextPath() %>/frontend/member/listOneMember.jsp">
+						<a class="nav-link"
+							href="<%=request.getContextPath()%>/frontend/member/listOneMember.jsp">
 							<div class="sb-nav-link-icon">
 								<i class="fas fa-tachometer-alt"></i>
 							</div> 會員資料管理
@@ -302,14 +304,16 @@ th, td {
 											<td>${secOrdVO.shDist}</td>
 											<td>${secOrdVO.shRoad}</td>
 											<td><c:if test="${secOrdVO.shPayment == 10}">錢包付款</c:if>
-												<c:if test="${secOrdVO.shPayment == 11}">信用卡付款</c:if> <c:if
-													test="${secOrdVO.shPayment == 12}">匯款付款</c:if></td>
+												<c:if test="${secOrdVO.shPayment == 11}">信用卡付款</c:if> 
+												<c:if test="${secOrdVO.shPayment == 12}">匯款付款</c:if></td>
+													
 											<td><c:if test="${secOrdVO.shOrdStatus == 1}">訂單未成立</c:if>
-												<c:if test="${secOrdVO.shOrdStatus == 2}">訂單已成立</c:if> <c:if
-													test="${secOrdVO.shOrdStatus == 8}">訂單取消</c:if> <c:if
-													test="${secOrdVO.shOrdStatus == 3}">訂單已出貨</c:if> <c:if
-													test="${secOrdVO.shOrdStatus == 6}">退款審核中</c:if> <c:if
-													test="${secOrdVO.shOrdStatus == 7}">訂單完成</c:if></td>
+												<c:if test="${secOrdVO.shOrdStatus == 2}">訂單已成立待付款</c:if> 
+												<c:if test="${secOrdVO.shOrdStatus == 3}">訂單已成立已付款</c:if>
+												<c:if test="${secOrdVO.shOrdStatus == 4}">訂單已出貨</c:if> 
+												<c:if test="${secOrdVO.shOrdStatus == 6}">退款審核中</c:if> 
+												<c:if test="${secOrdVO.shOrdStatus == 7}">訂單完成</c:if></td>
+												<c:if test="${secOrdVO.shOrdStatus == 8}">訂單取消</c:if> 
 											<td>${secOrdVO.shPrice}</td>
 											<td>${secOrdVO.shDate}</td>
 											<%-- 					<td>${secOrdVO.shBuyerScore}</td> --%>

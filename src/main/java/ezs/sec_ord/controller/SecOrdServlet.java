@@ -3,6 +3,7 @@ package ezs.sec_ord.controller;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,6 +18,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import ecpay.payment.integration.AllInOne;
+import ecpay.payment.integration.domain.AioCheckOutOneTime;
 import ezs.sec_items.model.entity.SecItem;
 import ezs.sec_ord.model.SecOrdJDBCDAO;
 import ezs.sec_ord.model.SecOrdService;
@@ -144,7 +147,7 @@ public class SecOrdServlet extends HttpServlet {
 						errorMsgs.add("地址請勿空白");
 					}
 				Integer shPayment = 11;
-				Integer shOrdStatus = 2;
+				Integer shOrdStatus = 3; // 2: 已成立未付款, 3: 已成立已付款
 				BigDecimal shPrice = new BigDecimal(req.getParameter("total"));
 				Date shDate = new java.sql.Date(new java.util.Date().getTime());
 				String shNotes = (String) req.getParameter("shNotes");
@@ -196,12 +199,41 @@ public class SecOrdServlet extends HttpServlet {
 				dao.insertWithSecOrdDetails(secOrdVO, testList);
 				session.removeAttribute("shoppingcart");
 
-				/*************************** 3.新增完成,準備轉交(Send the Success view) ************/
-
-				String url = "/frontend/EZ_home.jsp";
-				RequestDispatcher successView = req.getRequestDispatcher(url);
-				successView.forward(req, res);
-
+				/*************************** 3.EASYSPACE 訂單新增完成，拼接綠界訂單所需資料 ************/
+				
+				AioCheckOutOneTime aio = new AioCheckOutOneTime();
+				
+				// 用時間產生不重複的訂單編號
+				String now = LocalDateTime.now().toString();
+				StringBuffer MerchantTradeNo = new StringBuffer();
+				for (int i = 0; i < now.length()-6; i++) {
+					if (Character.isLetterOrDigit(now.charAt(i))) {
+						MerchantTradeNo.append(now.charAt(i));
+					}
+				}				
+				aio.setMerchantTradeNo("SH"+MerchantTradeNo.toString());
+				
+				aio.setMerchantTradeDate("2022/04/22 14:00:45");
+				aio.setTotalAmount(String.valueOf(shPrice));
+				aio.setTradeDesc("二手家具");
+				aio.setItemName("二手家具");
+				aio.setReturnURL("http://127.0.0.1:8080/EASYSPACE/ReturnURLServlet");
+				aio.setClientBackURL("http://127.0.0.1:8080/EASYSPACE/frontend/EZ_home.jsp");
+//				aio.setOrderResultURL("http://localhost:8080/EASYSPACE/ecpay/OrderResultURL.jsp");
+				aio.setNeedExtraPaidInfo("N");
+				aio.setRedeem("Y");
+				AllInOne all = new AllInOne("");
+				String form = all.aioCheckOut(aio, null);
+				req.setAttribute("form", form);
+				System.out.println(form);
+				
+				/*************************** 4.拼接完成，準備轉交 ************/
+				
+				String url = "/ecpay/returnPage.jsp";
+				RequestDispatcher dispatcher = req.getRequestDispatcher(url);
+				dispatcher.forward(req, res);
+				
+				
 				/*************************** 其他可能的錯誤處理 ***********************************/
 			} catch (Exception e) {
 				throw new ServletException(e);
